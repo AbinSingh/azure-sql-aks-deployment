@@ -181,6 +181,39 @@ kubectl logs <pod-name>
 kubectl get deployments
 kubectl get pods
 
+-----------------------
+----- az commands -----
+-----------------------
+
+# 1 .How to delete docker images in ACR?
+
+# list repository
+az acr repository list --name <ACR_NAME> --output table
+
+# list tags
+az acr repository show-tags --name <ACR_NAME> --repository <REPOSITORY_NAME> --output table
+
+# delete options
+az acr repository delete --name <ACR_NAME> --image <REPOSITORY>:<TAG> --yes
+
+# Delete an entire repository
+az acr repository delete --name <ACR_NAME> --repository <REPOSITORY_NAME> --yes
+
+# Delete all untagged manifests (cleanup)
+az acr run --registry <ACR_NAME> --cmd "acr purge --untagged" /dev/null
+
+# verify deletion
+az acr repository list --name <ACR_NAME> --output table
+
+# check images
+docker images
+
+# Delete the tagged images
+docker rmi akspracticeacr26abin.azurecr.io/backend:v1
+
+# delete from acr
+az acr repository delete --name akspracticeacr26abin --image backend:v1 --yes
+
 
 
 
